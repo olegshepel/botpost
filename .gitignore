@@ -1,0 +1,11 @@
+*.pyc
+__pycache__
+*.swp
+*~
+*.sqlite3
+.idea
+temp
+env
+venv
+.DS_Store
+npm-debug.log
