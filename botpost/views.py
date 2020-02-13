@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from rest_framework.decorators import api_view
-from rest_framework import status
-from rest_framework.response import Response
+from rest_framework import permissions
+from rest_framework.generics import CreateAPIView
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -24,15 +23,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ("id", "username", "password",)
 
 
-@api_view(['POST'])
-def signup(request):
-    serialized = UserSerializer(data=request.DATA)
-    if serialized.is_valid():
-        User.objects.create_user(
-            serialized.init_data['email'],
-            serialized.init_data['username'],
-            serialized.init_data['password']
-        )
-        return Response(serialized.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+class CreateUserView(CreateAPIView):
+    model = get_user_model()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = UserSerializer

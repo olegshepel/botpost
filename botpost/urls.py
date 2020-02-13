@@ -21,6 +21,6 @@ from .views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/signup/', signup, name='signup'),
+    path('api/signup/', CreateUserView.as_view(), name='signup'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
