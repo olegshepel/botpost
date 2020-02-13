@@ -41,7 +41,6 @@ class Client:
             'password': user['password']
         }
         headers = dict(Referer=f"{self.base_path}/{path}")
-        print(headers)
         client.post(f"{self.base_path}/{path}/", data=data, headers=headers)
 
     def logout(self):
@@ -87,7 +86,7 @@ class Client:
     def like(self):
         random_post_number = random.randrange(3)
         path = f"api/posts/{random_post_number}/like"
-        return self.get_requester(path)
+        return self.post_requester(path)
 
     def get_requester(self, path=''):
         response = requests.get(f"{self.base_path}/{path}/")

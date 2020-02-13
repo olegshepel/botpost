@@ -14,17 +14,17 @@ class PostViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
 
-    def like_dislike(self, like=None):
+    def set_like(self, like=None):
         user = self.request.user
         post = self.get_object()
         post.like(user) if like else post.dislike(user)
         serializer = self.get_serializer_class()(post)
         return Response(serializer.data)
 
-    @action(methods=['get'], detail=True, permission_classes=[IsAuthenticated])
+    @action(methods=['post'], detail=True, permission_classes=[IsAuthenticated])
     def like(self, request, pk=None):
-        return self.like_dislike(like=True)
+        return self.set_like(like=True)
 
-    @action(methods=['get'], detail=True, permission_classes=[IsAuthenticated])
+    @action(methods=['post'], detail=True, permission_classes=[IsAuthenticated])
     def dislike(self, request, pk=None):
-        return self.like_dislike(like=False)
+        return self.set_like(like=False)
